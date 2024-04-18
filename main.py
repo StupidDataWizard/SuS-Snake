@@ -2,7 +2,7 @@ import pygame
 
 import conf as c
 from events import EventHandler
-from states import Game
+from states import StartGame
 
 # init stuff
 pygame.init()
@@ -15,12 +15,13 @@ pygame.display.set_caption("Let us play Snake!")
 active = True
 clock = pygame.time.Clock()
 
-state = Game(screen)
+# state = Game(screen)
+state = StartGame(screen)
 dt = 0
 
 
 @EventHandler.register(pygame.QUIT)
-def quit_game(e):
+def quit_game():
     pygame.quit()
     quit(0)
 
