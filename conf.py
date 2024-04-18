@@ -1,4 +1,3 @@
-
 ORANGE = (255, 140, 0)
 ROT = (255, 0, 0)
 GREEN = (0, 255, 0)
@@ -20,7 +19,7 @@ MOVE_LEFT = "a"
 MOVE_RIGHT = "d"
 
 FRAMES = 60
-SPEED = 1
+SPEED = -20
 
 SNAKE_START_X = 1
 SNAKE_START_Y = 1
