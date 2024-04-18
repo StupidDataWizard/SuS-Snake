@@ -8,7 +8,7 @@ from events import EventHandler
 from snake import Snake, SnakeGUI, GAME_OVER_EVENT
 
 
-class State(ABC):
+class State(ABC):  # Abstrakte Base-Klasse für die verschiedenen Spielzustände
     def __init__(self):
         self.new_state = None
 
@@ -29,7 +29,7 @@ class State(ABC):
             return state
 
 
-class Game(State):
+class Game(State):  # Subklasse von State, die das eigentliche Spiel repräsentiert
     def __init__(self, screen):
         super().__init__()
         self.clock = 0
@@ -62,6 +62,7 @@ class Game(State):
             score = len(self.snake)
             self.new_state = GameOver(self.screen, "Game Over", score)
 
+
     def update(self, dt):
         self.clock += 100 + dt
         if self.clock >= self.speed:
@@ -70,11 +71,15 @@ class Game(State):
 
         self.gui.update()
 
+        # change speed when snake length is 10 or more
+        if len(self.snake) >= 10:
+            self.speed = 2
+
     def draw(self):
         self.gui.draw(self.screen)
 
 
-class GameOver(State):
+class GameOver(State):  # Subklasse von State, die den Spielzustand nach dem Game Over repräsentiert
     def __init__(self, screen, message, score):
         super().__init__()
 
@@ -111,3 +116,47 @@ class GameOver(State):
         center = self.score.get_rect(center=(center[0] + self.game_over.get_rect().width / 2, center[1] + 60))
         self.screen.blit(self.score, center)
 
+
+class StartGame(State):
+    def __init__(self, screen):
+        super().__init__()
+        self.screen = screen
+        # start button
+        self.start_btn = Button(0, 0, text="Start")
+
+        def click():
+            # starts the game here
+            self.new_state = Game(self.screen)
+
+        self.start_btn.on_click(click)
+
+        self.sprites = pygame.sprite.Group()
+        self.sprites.add(self.start_btn)
+
+    def update(self, dt):
+        return
+
+    def draw(self):
+        self.screen.blit(self.start_btn.rendered, self.start_btn.pos)
+
+class PauseGame(State):
+    def __init__(self, screen):
+        super().__init__()
+        self.screen = screen
+        # resume button
+        self.resume_btn = Button(0, 0, text="Resume")
+
+        def click():
+            # resumes the game here
+            self.new_state = Game(self.screen)
+
+        self.resume_btn.on_click(click)
+
+        self.sprites = pygame.sprite.Group()
+        self.sprites.add(self.resume_btn)
+
+    def update(self, dt):
+        return
+
+    def draw(self):
+        self.screen.blit(self.resume_btn.rendered, self.resume_btn.pos)
