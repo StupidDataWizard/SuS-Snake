@@ -138,25 +138,3 @@ class StartGame(State):
 
     def draw(self):
         self.screen.blit(self.start_btn.rendered, self.start_btn.pos)
-
-class PauseGame(State):
-    def __init__(self, screen):
-        super().__init__()
-        self.screen = screen
-        # resume button
-        self.resume_btn = Button(0, 0, text="Resume")
-
-        def click():
-            # resumes the game here
-            self.new_state = Game(self.screen)
-
-        self.resume_btn.on_click(click)
-
-        self.sprites = pygame.sprite.Group()
-        self.sprites.add(self.resume_btn)
-
-    def update(self, dt):
-        return
-
-    def draw(self):
-        self.screen.blit(self.resume_btn.rendered, self.resume_btn.pos)
